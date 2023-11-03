@@ -44,3 +44,6 @@ Route::put('/students/{id}', [StudentController::class, 'update']);
 // Membuat Route Students dengan method DELETE
 Route::delete('/students/{id}', [StudentController::class, 'destroy']);
 
+// Membuat Route untuk mendapatkan detail student
+Route::get("students/{id}", [StudentController::class, "show"]);
+
