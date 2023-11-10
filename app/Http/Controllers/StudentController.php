@@ -18,7 +18,8 @@ class StudentController extends Controller
         //Jika data kosong maka kirim status code 204
         if($students->isEmpty()){
             $data = [
-                'message' => 'Resource is empty'
+                'message' => 'Resource is empty',
+                'data' => $students
             ];
 
             return response()->json($data, 204);
@@ -34,22 +35,17 @@ class StudentController extends Controller
 
     //Membuat method store
     public function store(Request $request){
-        //Validasi data request
-        $request->validate([
+        //Membuat Validasi
+        $validatedData = $request->validate([
+            #Kolom => 'rules/rules'
             'nama' => 'required',
-            'nim' => 'required',
-            'email' => 'required|email',
+            'nim' => 'numeric|required',
+            'email' => 'email|required',
             'jurusan' => 'required'
         ]);
 
-        $input = [
-            'nama' => $request->nama,
-            'nim' => $request->nim,
-            'email' => $request->email,
-            'jurusan' => $request->jurusan,
-        ];
+        $student = Student::create($validatedData);
 
-        $student = Student::create($input);
         $data = [
             'message' => 'Student is created succesfully',
             'data' => $student,
